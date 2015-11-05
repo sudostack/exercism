@@ -6,7 +6,11 @@ defmodule Words do
   """
   @spec count(String.t) :: map()
   def count(sentence) do
-    sentence
+    Regex.scan(~r/[a-zA-Z 0-9\-\_]/, sentence)
+    |> List.flatten
+    |> Enum.join
+    |> String.replace(~r/[:,]/, "")
+    |> String.replace(~r/[_]/, " ")
     |> String.split
     |> Enum.reduce(%{}, fn(word, acc) ->
       cond do
