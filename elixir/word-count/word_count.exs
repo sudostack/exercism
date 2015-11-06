@@ -6,18 +6,27 @@ defmodule Words do
   """
   @spec count(String.t) :: map()
   def count(sentence) do
-    Regex.scan(~r/[ 0-9\-\_\p{L}+]/, sentence)
-    |> List.flatten
-    |> Enum.join
-    |> String.replace(~r/[:,]/, "")
-    |> String.replace(~r/[_]/, " ")
+    sentence
+    |> get_chars
+    |> strip_chars
     |> String.downcase
     |> String.split
-    |> Enum.reduce(%{}, fn(word, acc) ->
-      cond do
-        Map.has_key?(acc, word) -> Map.put(acc, word, acc[word]+1)
-        true                    -> Map.put(acc, word, 1)
-      end
+    |> word_map
+  end
+
+  defp get_chars(string) do
+    Regex.scan(~r/[ 0-9\-\_\p{L}+]/, string)
+    |> List.flatten
+    |> Enum.join
+  end
+
+  defp strip_chars(string) do
+    String.replace(string, ~r/[:,]/, "") |> String.replace(~r/[_]/, " ")
+  end
+
+  defp word_map(list) do
+    Enum.reduce(list, %{}, fn(word, map) ->
+      Map.update(map, word, 1, &(&1 + 1))
     end)
   end
 end
