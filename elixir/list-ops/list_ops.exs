@@ -61,7 +61,7 @@ defmodule ListOps do
     cond do
       count(a) == 0 -> push_left(a, b)
       count(b) == 0 -> push_right(a, b)
-      count(a) > 1  -> push_left(reverse(a), b)
+      true          -> push_left(reverse(a), b)
     end
   end
   defp push_left([head|tail], accum), do: push_left(tail, [head|accum])
@@ -71,6 +71,11 @@ defmodule ListOps do
 
   @spec concat([[any]]) :: [any]
   def concat(ll) do
-
+    joiner(ll)
   end
+
+  defp joiner(list, accum \\ [])
+  defp joiner([ [head|tail] | t ], accum), do: joiner([ tail | t], [head|accum])
+  defp joiner([[]|tail], accum), do: joiner(tail, accum)
+  defp joiner([], accum), do: reverse(accum)
 end
