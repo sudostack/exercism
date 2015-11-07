@@ -15,8 +15,12 @@ defmodule ListOps do
 
   @spec reverse(list) :: list
   def reverse(l) do
-
+    rtl(l)
   end
+
+  defp rtl(list, accum \\ [])
+  defp rtl([head|tail], accum), do: rtl(tail, [head|accum])
+  defp rtl([], accum), do: accum
 
   @spec map(list, (any -> any)) :: list
   def map(l, f) do
