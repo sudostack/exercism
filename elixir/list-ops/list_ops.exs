@@ -24,8 +24,11 @@ defmodule ListOps do
 
   @spec map(list, (any -> any)) :: list
   def map(l, f) do
-
+    mapper(l, f)
   end
+
+  defp mapper([], _func), do: []
+  defp mapper([head|tail], func), do: [ func.(head) | mapper(tail, func) ]
 
   @spec filter(list, (any -> as_boolean(term))) :: list
   def filter(l, f) do
