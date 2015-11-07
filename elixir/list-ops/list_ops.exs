@@ -55,9 +55,19 @@ defmodule ListOps do
   defp foldl([], accum, _func), do: accum
 
   @spec append(list, list) :: list
-  def append(a, b) do
+  def append(a, b), do: pusher(a, b)
 
+  defp pusher(a, b) do
+    cond do
+      count(a) == 0 -> push_left(a, b)
+      count(b) == 0 -> push_right(a, b)
+      count(a) > 1  -> push_left(reverse(a), b)
+    end
   end
+  defp push_left([head|tail], accum), do: push_left(tail, [head|accum])
+  defp push_left([], accum), do: accum
+  defp push_right(accum, [head|tail]), do: push_right([head|accum], tail)
+  defp push_right(accum, []), do: accum
 
   @spec concat([[any]]) :: [any]
   def concat(ll) do
