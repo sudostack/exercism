@@ -32,8 +32,17 @@ defmodule ListOps do
 
   @spec filter(list, (any -> as_boolean(term))) :: list
   def filter(l, f) do
-
+    filt(reverse(l), f)
   end
+
+  defp filt(list, func, accum \\ [])
+  defp filt([head|tail], func, accum) do
+    cond do
+      func.(head) -> filt(tail, func, [head|accum])
+      true        -> filt(tail, func, accum)
+    end
+  end
+  defp filt([], _func, accum), do: accum
 
   @type acc :: any
   @spec reduce(list, acc, ((any, acc) -> acc)) :: acc
