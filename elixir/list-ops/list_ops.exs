@@ -47,8 +47,12 @@ defmodule ListOps do
   @type acc :: any
   @spec reduce(list, acc, ((any, acc) -> acc)) :: acc
   def reduce(l, acc, f) do
-
+    foldl(l, acc, f)
   end
+
+  defp foldl(list, accum \\ [], func)
+  defp foldl([head|tail], accum, func), do: foldl(tail, func.(head, accum), func)
+  defp foldl([], accum, _func), do: accum
 
   @spec append(list, list) :: list
   def append(a, b) do
