@@ -7,11 +7,10 @@ defmodule ListOps do
   # automatically imported) and so shouldn't be used either.
 
   @spec count(list) :: non_neg_integer
-  def count(l), do: sum(l)
+  def count(l), do: counter(l)
 
-  defp sum(list, accum \\ 0) # this is a func head w/ no body (avoids confusion when using defaults)
-  defp sum([_|tail], accum), do: sum(tail, accum + 1)
-  defp sum([], accum), do: accum
+  defp counter([]), do: 0
+  defp counter([_|tail]), do: counter(tail) + 1
 
   @spec reverse(list) :: list
   def reverse(l) do
@@ -32,17 +31,16 @@ defmodule ListOps do
 
   @spec filter(list, (any -> as_boolean(term))) :: list
   def filter(l, f) do
-    filt(reverse(l), f)
+    filtration(l, f)
   end
 
-  defp filt(list, func, accum \\ [])
-  defp filt([head|tail], func, accum) do
-    cond do
-      func.(head) -> filt(tail, func, [head|accum])
-      true        -> filt(tail, func, accum)
+  defp filtration([], _func), do: []
+  defp filtration([head|tail], func) do
+    case func.(head) do
+      true  -> [ head | filtration(tail, func) ]
+      false -> filtration(tail, func)
     end
   end
-  defp filt([], _func, accum), do: accum
 
   @type acc :: any
   @spec reduce(list, acc, ((any, acc) -> acc)) :: acc
