@@ -8,8 +8,16 @@ defmodule Sublist do
       a == b         -> :equal
       empty_list?(a) -> :sublist
       empty_list?(b) -> :superlist
+      true           -> :unequal
     end
   end
 
   defp empty_list?(list), do: Enum.count(list) == 0
+
+  defp same_length?(l1, l2) do
+    Enum.count(l1) == Enum.count(l2)
+  end
+
+  # I want to start comparing the values in each list
+  # considerations: Enum.zip/2, list comprehensions
 end
