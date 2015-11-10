@@ -6,6 +6,9 @@ defmodule Sublist do
   def compare(a, b) do
     cond do
       a == b -> :equal
+      empty_list?(a) || empty_list?(b) -> :sublist
     end
   end
+
+  defp empty_list?(list), do: Enum.count(list) == 0
 end
