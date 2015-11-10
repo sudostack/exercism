@@ -5,8 +5,9 @@ defmodule Sublist do
   """
   def compare(a, b) do
     cond do
-      a == b -> :equal
-      empty_list?(a) || empty_list?(b) -> :sublist
+      a == b         -> :equal
+      empty_list?(a) -> :sublist
+      empty_list?(b) -> :superlist
     end
   end
 
