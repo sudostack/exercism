@@ -26,13 +26,11 @@ defmodule SublistTest do
     assert Sublist.compare([1], [2]) == :unequal
   end
 
-  @tag :pending
   test "comparing massive equal lists" do
     l = Enum.to_list(1..1_000_000)
     assert Sublist.compare(l, l) == :equal
   end
 
-  @tag :pending
   test "sublist at start" do
     assert Sublist.compare([1,2,3],[1,2,3,4,5]) == :sublist
   end

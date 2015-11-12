@@ -19,9 +19,15 @@ defmodule Sublist do
   end
 
   defp linear_comp(list1, list2) do
-    for a <- list1, b <- list2 do
-      a * b
-    end
+    sorted_l1 = Enum.sort(list1)
+    sorted_l2 = Enum.sort(list2)
+
+    Enum.each(sorted_l1, fn num ->
+      Enum.find_index(sorted_l2)
+    end)
+    # cond do
+    #   Enum.sort(list1) == Enum.sort(list2) -> :equal
+    # end
   end
 
   # I want to start comparing the values in each list
