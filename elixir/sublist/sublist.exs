@@ -5,31 +5,27 @@ defmodule Sublist do
   """
   def compare(a, b) do
     cond do
-      a == b         -> :equal
-      empty_list?(a) -> :sublist
-      empty_list?(b) -> :superlist
-      true           -> :unequal
+      a == b                       -> :equal
+      Enum.empty?(a)               -> :sublist
+      Enum.empty?(b)               -> :superlist
+      comparator(a, b) == :sublist -> :sublist
+      true                         -> :unequal
     end
   end
 
-  defp empty_list?(list), do: Enum.count(list) == 0
+  defp comparator(list1, list2) do
+    list1_len = Enum.count(list1)
+    list2_len = Enum.count(list2)
+    list1_sum = Enum.sum(list1)
+    list2_sum = Enum.sum(list2)
 
-  defp same_length?(list1, list2) do
-    Enum.count(l1) == Enum.count(l2)
+    cond do
+      (list1_len == list2_len) && (list1_sum == list2_sum) ->
+        :equal
+      (list1_len == list2_len) && (list1_sum < list2_sum) ->
+        :unequal
+      (list1_len < list2_len) && (list1_sum < list2_sum) ->
+        :sublist
+    end
   end
-
-  defp linear_comp(list1, list2) do
-    sorted_l1 = Enum.sort(list1)
-    sorted_l2 = Enum.sort(list2)
-
-    Enum.each(sorted_l1, fn num ->
-      Enum.find_index(sorted_l2)
-    end)
-    # cond do
-    #   Enum.sort(list1) == Enum.sort(list2) -> :equal
-    # end
-  end
-
-  # I want to start comparing the values in each list
-  # considerations: Enum.zip/2, list comprehensions
 end
