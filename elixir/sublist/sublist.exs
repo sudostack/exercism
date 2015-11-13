@@ -5,11 +5,12 @@ defmodule Sublist do
   """
   def compare(a, b) do
     cond do
-      a == b                       -> :equal
-      Enum.empty?(a)               -> :sublist
-      Enum.empty?(b)               -> :superlist
-      comparator(a, b) == :sublist -> :sublist
-      true                         -> :unequal
+      a == b                         -> :equal
+      Enum.empty?(a)                 -> :sublist
+      Enum.empty?(b)                 -> :superlist
+      comparator(a, b) == :sublist   -> :sublist
+      comparator(a, b) == :superlist -> :superlist
+      true                           -> :unequal
     end
   end
 
@@ -20,12 +21,20 @@ defmodule Sublist do
     list2_sum = Enum.sum(list2)
 
     cond do
-      (list1_len == list2_len) && (list1_sum == list2_sum) ->
+      (list1_len == list2_len) && (list1_sum == list2_sum) && same_num_type?(list1_sum, list2_sum) ->
         :equal
-      (list1_len == list2_len) && (list1_sum < list2_sum) ->
+      (list1_len == list2_len) && (list1_sum < list2_sum) && same_num_type?(list1_sum, list2_sum) ->
         :unequal
-      (list1_len < list2_len) && (list1_sum < list2_sum) ->
+      (list1_len < list2_len) && (list1_sum < list2_sum) && same_num_type?(list1_sum, list2_sum) ->
         :sublist
+      (list1_len > list2_len) && (list1_sum > list2_sum) && same_num_type?(list1_sum, list2_sum) ->
+        :superlist
+      true ->
+        :unequal
     end
+  end
+
+  defp same_num_type?(num1, num2) do
+    (is_float(num1) && is_float(num2)) || (!is_float(num1) && (!is_float(num2)))
   end
 end
