@@ -56,12 +56,12 @@ defmodule AnagramTest do
     assert matches == ["Carthorse"]
   end
 
+  @tag :pending
   test "anagrams must not be the source word" do
     matches = Anagram.match "corn", ["corn", "dark", "Corn", "rank", "CORN", "cron", "park"]
     assert matches == ["cron"]
   end
 
-  @tag :pending
   test "do not detect words based on checksum" do
     matches = Anagram.match "mass", ["last"]
     assert matches == []

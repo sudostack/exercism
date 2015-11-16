@@ -8,12 +8,10 @@ defmodule Anagram do
   end
 
   defp is_match?(str1, str2) do
-    str1 !== str2 && string_list(String.downcase(str1)) === string_list(String.downcase(str2))
+    string_list(String.downcase(str1)) === string_list(String.downcase(str2))
   end
 
   defp string_list(string) do
-    String.split(string, "")
-    |> Enum.take(String.length(string))
-    |> Enum.sort
+    String.split(string, "", trim: true) |> Enum.sort
   end
 end
