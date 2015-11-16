@@ -4,8 +4,9 @@ defmodule Anagram do
   """
   @spec match(String.t, [String.t]) :: [String.t]
   def match(base, candidates) do
-    Enum.filter(candidates, &(is_match?(base, &1)))
-    |> Enum.filter(&(!is_source_word?(base, &1)))
+    Enum.filter candidates, fn candidate ->
+      !is_source_word?(base, candidate) && is_match?(base, candidate)
+    end
   end
 
   defp is_match?(str1, str2) do
