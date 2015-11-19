@@ -13,4 +13,5 @@ defmodule DNA do
   end
 
   defp ham('', ''), do: 0
+  defp ham(strand, strand), do: 0
 end
