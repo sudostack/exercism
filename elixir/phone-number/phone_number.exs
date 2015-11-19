@@ -24,6 +24,10 @@ defmodule Phone do
     cond do
       head == ?1 && length(raw_list) == 11 ->
         number_string(to_string(tail))
+      length(raw_list) == 11 || length(raw_list) == 9 ->
+        "0000000000"
+      Regex.match?(~r/[a-zA-Z]/, raw) ->
+        "0000000000"
       true ->
         number_string(raw)
     end
