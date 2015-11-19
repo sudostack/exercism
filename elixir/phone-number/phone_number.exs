@@ -18,11 +18,26 @@ defmodule Phone do
   """
   @spec number(String.t) :: String.t
   def number(raw) do
+    raw_list    = to_char_list(sanitize(raw))
+    [head|tail] = raw_list
+
+    cond do
+      head == ?1 && length(raw_list) == 11 ->
+        number_string(to_string(tail))
+      true ->
+        number_string(raw)
+    end
+  end
+
+  defp sanitize(raw) do
+    String.replace(raw, ~r/[.]/, "")
+  end
+
+  defp number_string(raw) do
     Regex.scan(~r/\d+/, raw)
     |> List.flatten
     |> Enum.join
   end
-
   @doc """
   Extract the area code from a phone number
 

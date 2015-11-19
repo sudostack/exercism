@@ -14,12 +14,10 @@ defmodule PhoneTest do
     assert Phone.number("(123) 456-7890") == "1234567890"
   end
 
-  @tag :pending
   test "cleans number with dots" do
     assert Phone.number("123.456.7890") == "1234567890"
   end
 
-  @tag :pending
   test "valid when 11 digits and first is 1" do
     assert Phone.number("11234567890") == "1234567890"
   end
