@@ -61,7 +61,12 @@ defmodule Phone do
   """
   @spec area_code(String.t) :: String.t
   def area_code(raw) do
-
+    cond do
+      String.length(raw) == 11 ->
+        String.slice(raw, 1..3)
+      true ->
+        String.slice(raw, 0..2)
+    end
   end
 
   @doc """
@@ -83,6 +88,7 @@ defmodule Phone do
   """
   @spec pretty(String.t) :: String.t
   def pretty(raw) do
-
+    digits = number(raw)
+    "(#{area_code(digits)}) #{String.slice(digits, 3..5)}-#{String.slice(digits, 6..9)}"
   end
 end

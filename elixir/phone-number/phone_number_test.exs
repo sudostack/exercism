@@ -38,17 +38,14 @@ defmodule PhoneTest do
     assert Phone.area_code("1234567890") == "123"
   end
 
-  @tag :pending
   test "area code with full US phone number" do
     assert Phone.area_code("11234567890") == "123"
   end
 
-  @tag :pending
   test "pretty print" do
     assert Phone.pretty("1234567890") == "(123) 456-7890"
   end
 
-  @tag :pending
   test "pretty print with full US phone number" do
     assert Phone.pretty("11234567890") == "(123) 456-7890"
   end
