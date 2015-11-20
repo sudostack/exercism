@@ -17,7 +17,6 @@ defmodule SchoolTest do
     assert actual == %{2 => ["Aimee"]}
   end
 
-  @tag :pending
   test "add more students in same class" do
     actual = db
      |> School.add("James", 2)

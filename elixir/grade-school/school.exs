@@ -12,7 +12,7 @@ defmodule School do
   def add(db, name, grade) do
     case Map.get(db, grade) do
       nil -> Map.put(db, grade, [name])
-      _   -> Map.update(db, grade, fn list -> [name|list] end)
+      _   -> Map.update(db, grade, [name], fn list -> [name|list] end)
     end
   end
 
