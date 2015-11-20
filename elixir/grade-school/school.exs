@@ -10,7 +10,6 @@ defmodule School do
   """
   @spec add(Dict.t, String.t, pos_integer) :: Dict.t
   def add(db, name, grade) do
-    # Map.update(db, grade, [name], fn list -> [name|list] end)
     Map.update(db, grade, [name], &([name|&1]))
   end
 
@@ -19,11 +18,7 @@ defmodule School do
   """
   @spec grade(Dict.t, pos_integer) :: [String]
   def grade(db, grade) do
-    if Map.has_key?(db, grade) do
-      Map.get(db, grade)
-    else
-      []
-    end
+    Map.has_key?(db, grade) && Map.get(db, grade) || []
   end
 
   @doc """
@@ -31,7 +26,6 @@ defmodule School do
   """
   @spec sort(Dict) :: Dict.t
   def sort(db) do
-    # Enum.reduce(Map.keys(db), %{}, &Map.put(&2, &1, Enum.sort(db[&1])))
     Enum.reduce(Map.keys(db), %{}, fn grade, acc ->
       Map.put(acc, grade, Enum.sort(db[grade]))
     end)
