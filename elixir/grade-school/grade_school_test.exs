@@ -26,7 +26,6 @@ defmodule SchoolTest do
     assert Enum.sort(actual[2]) == ["Blair", "James", "Paul"]
   end
 
-  @tag :pending
   test "add students to different grades" do
     actual = db
      |> School.add("Chelsea", 3)
@@ -35,7 +34,6 @@ defmodule SchoolTest do
     assert actual == %{3 => ["Chelsea"], 7 => ["Logan"]}
   end
 
-  @tag :pending
   test "get students in a grade" do
     actual = db
      |> School.add("Bradley", 5)
@@ -46,12 +44,10 @@ defmodule SchoolTest do
     assert Enum.sort(actual) == ["Bradley", "Franklin"]
   end
 
-  @tag :pending
   test "get students in a non existant grade" do
     assert [] == School.grade(db, 1)
   end
 
-  @tag :pending
   test "sort school by grade and by student name" do
     actual = db
      |> School.add("Bart", 4)
