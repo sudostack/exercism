@@ -10,8 +10,10 @@ defmodule School do
   """
   @spec add(Dict.t, String.t, pos_integer) :: Dict.t
   def add(db, name, grade) do
-    # Map.update(db, grade, [], fn list -> List.insert_at(list, length(list), name) end)
-    # # Map.update(db, name, [], fn val -> val end)
+    case Map.get(db, grade) do
+      nil -> Map.put(db, grade, [name])
+      _   -> Map.update(db, grade, fn list -> [name|list] end)
+    end
   end
 
   @doc """
