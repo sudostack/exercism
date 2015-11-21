@@ -18,7 +18,6 @@ defmodule TransformTest do
     assert ETL.transform(old) == expected
   end
 
-  @tag :pending
   test "transform more values" do
     old = %{1 => ["WORLD", "GSCHOOLERS"]}
     expected = %{"world" => 1, "gschoolers" => 1}
