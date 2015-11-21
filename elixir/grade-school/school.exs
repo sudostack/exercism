@@ -18,7 +18,7 @@ defmodule School do
   """
   @spec grade(Dict.t, pos_integer) :: [String]
   def grade(db, grade) do
-    Map.has_key?(db, grade) && Map.get(db, grade) || []
+    Map.get(db, grade, [])
   end
 
   @doc """
