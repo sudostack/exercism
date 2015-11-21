@@ -16,7 +16,7 @@ defmodule ETL do
 
   def list_mapper(source, list, key) do
     Enum.reduce(list, source, fn word, src ->
-      Map.update(src, String.downcase(word), 1, &(&1 + 1))
+      Dict.put(src, String.downcase(word), key)
     end)
   end
 end
