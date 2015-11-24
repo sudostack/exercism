@@ -17,54 +17,37 @@ defmodule Meetup do
   """
   @spec meetup(pos_integer, pos_integer, weekday, schedule) :: :calendar.date
   def meetup(year, month, weekday, schedule) do
-    # {2013, 5, 13}
-    # go through each calendar day until :calendar.last_day_of_the_month(year, month)
-      # check if weekday(day_of_the_week/3) matches `weekday`
-      # check if the schedule is first, second, teenth
+    {
+      year,
+      month,
+      day_from_schedule(month_week_dates(year, month), weekday, schedule)
+    }
   end
 
   def month_week_dates(year, month) do
     for day <- 1..:calendar.last_day_of_the_month(year, month) do
-      {day, :calendar.day_of_the_week(2015, month, day)}
+      {day, :calendar.day_of_the_week(year, month, day)}
     end
   end
 
-  # defp weeks(month) do
-  #   Enum.reduce(month, %{}, fn {day, weekday}, weeks ->
-  #   end)
-  # end
+  @weekdays %{
+    1 => :monday,
+    2 => :tuesday,
+    3 => :wednesday,
+    4 => :thursday,
+    5 => :friday,
+    6 => :saturday,
+    7 => :sunday,
+  }
 
-  defp weekday(day) do
-    %{
-      :monday    => 1,
-      :tuesday   => 2,
-      :wednesday => 3,
-      :thursday  => 4,
-      :friday    => 5,
-      :saturday  => 6,
-      :sunday    => 7
-    }
-    |> Map.get(day)
+  def day_from_schedule(days_of_the_month, day_of_the_week, schedule) do
+    { day, _ } = case schedule do
+      :teenth ->
+        days_of_the_month
+        |> Enum.filter(fn {dotm, _} -> dotm >= 12 && dotm <= 19 end)
+        |> Enum.find(fn {_, dotw} -> day_of_the_week == Map.get(@weekdays, dotw) end)
+    end
+
+    day
   end
-
-  # defp cal_matrix(year, month) do
-  #   matrix = [
-  #     [], # week 1
-  #     [],
-  #     [],
-  #     [],
-  #     []
-  #   ]
-  # end
-
-  #   first_dotw = :calendar.day_of_the_week({year, month, 1}) - 1
-  #   last_dotm  = :calendar.last_day_of_the_month(year, month)
-
-  #   Enum.each 1..last_dotm, fn day do
-  #     cond do
-  #       day == 1 ->
-  #       true     ->
-  #     end
-  #   end
-  # end
 end
