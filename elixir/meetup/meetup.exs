@@ -41,11 +41,23 @@ defmodule Meetup do
   }
 
   def day_from_schedule(days_of_the_month, day_of_the_week, schedule) do
-    { day, _ } = case schedule do
+    case schedule do
       :teenth ->
         days_of_the_month
         |> Enum.filter(fn {dotm, _} -> dotm >= 12 && dotm <= 19 end)
-        |> Enum.find(fn {_, dotw} -> day_of_the_week == Map.get(@weekdays, dotw) end)
+        # |> get_day(day_of_the_week)
+      :first ->
+        days_of_the_month
+        |> Enum.filter(fn {_, dotw} -> (7 - dotw) >= 0 end)
+      _ -> # all else should just be the nth instance of
+        days_of_the_month
+    end
+    |> get_day(day_of_the_week)
+  end
+
+  def get_day(days, target_dotw) do
+    { day, _ } = Enum.find days, fn {_, dotw} ->
+      target_dotw == Map.get(@weekdays, dotw)
     end
 
     day
