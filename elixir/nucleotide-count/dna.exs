@@ -15,7 +15,7 @@ defmodule DNA do
   @spec count([char], char) :: non_neg_integer
   # the strand is entered as a "char list" (single quoted)
   def count(strand, nucleotide) do
-    Enum.filter(strand, &(&1 === nucleotide)) |> Enum.count
+    Enum.filter(strand, &(&1 == nucleotide)) |> Enum.count
   end
 
 
@@ -29,10 +29,8 @@ defmodule DNA do
   """
   @spec nucleotide_counts([char]) :: Dict.t
   def nucleotide_counts(strand) do
-    Enum.reduce nucleotides(), %{}, fn (nuc, acc) ->
+    Enum.reduce @nucleotides, %{}, fn (nuc, acc) ->
       Map.put(acc, nuc, count(strand, nuc))
     end
   end
-
-  defp nucleotides, do: [?A, ?C, ?G, ?T]
 end
