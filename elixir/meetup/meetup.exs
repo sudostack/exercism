@@ -1,3 +1,4 @@
+require IEx
 defmodule Meetup do
   @moduledoc """
   Calculate meetup dates.
@@ -40,19 +41,30 @@ defmodule Meetup do
     7 => :sunday,
   }
 
+  @nth_instance %{
+    :first  => 0,
+    :second => 1,
+    :third  => 2,
+    :fourth => 3
+  }
+
   def day_from_schedule(days_of_the_month, day_of_the_week, schedule) do
     case schedule do
       :teenth ->
         days_of_the_month
         |> Enum.filter(fn {dotm, _} -> dotm >= 12 && dotm <= 19 end)
-        # |> get_day(day_of_the_week)
+        |> get_day(day_of_the_week)
       :first ->
         days_of_the_month
         |> Enum.filter(fn {_, dotw} -> (7 - dotw) >= 0 end)
+        |> get_day(day_of_the_week)
       _ -> # all else should just be the nth instance of
         days_of_the_month
+        |> Enum.filter(fn {_, dotw} ->
+          dotw == Map.get(@weekdays, day_of_the_week)
+        end)
+        |> Enum.at(@nth_instance[schedule])
     end
-    |> get_day(day_of_the_week)
   end
 
   def get_day(days, target_dotw) do

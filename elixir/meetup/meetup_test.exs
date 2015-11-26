@@ -185,7 +185,7 @@ defmodule MeetupTest do
     assert Meetup.meetup(2013, 4, :sunday, :first) == {2013, 4, 7}
   end
 
-  @tag :pending
+  # @tag :pending
   test "second monday of march 2013" do
     assert Meetup.meetup(2013, 3, :monday, :second) == {2013, 3, 11}
   end
