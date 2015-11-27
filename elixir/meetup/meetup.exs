@@ -41,7 +41,7 @@ defmodule Meetup do
     7 => :sunday,
   }
 
-  @nth_instance %{
+  @schedule_idx %{
     :first  => 0,
     :second => 1,
     :third  => 2,
@@ -54,16 +54,19 @@ defmodule Meetup do
         days_of_the_month
         |> Enum.filter(fn {dotm, _} -> dotm >= 12 && dotm <= 19 end)
         |> get_day(day_of_the_week)
-      :first ->
+      :last ->
         days_of_the_month
-        |> Enum.filter(fn {_, dotw} -> (7 - dotw) >= 0 end)
-        |> get_day(day_of_the_week)
+        |> Enum.filter(fn {_, dotw} ->
+          # day_of_the_week is a symbol
+          dotw == day_of_the_week
+        end)
+        |> List.last
       _ -> # all else should just be the nth instance of
         days_of_the_month
         |> Enum.filter(fn {_, dotw} ->
-          dotw == Map.get(@weekdays, day_of_the_week)
+          dotw == day_of_the_week
         end)
-        |> Enum.at(@nth_instance[schedule])
+        |> Enum.at(Map.get(@schedule_idx, schedule))
     end
   end
 
