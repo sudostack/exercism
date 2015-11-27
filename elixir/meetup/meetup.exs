@@ -21,14 +21,8 @@ defmodule Meetup do
     {
       year,
       month,
-      day_from_schedule(month_week_dates(year, month), weekday, schedule)
+      get_date(days_list(year, month), weekday, schedule)
     }
-  end
-
-  def month_week_dates(year, month) do
-    for day <- 1..:calendar.last_day_of_the_month(year, month) do
-      {day, :calendar.day_of_the_week(year, month, day)}
-    end
   end
 
   @weekdays %{
@@ -41,6 +35,12 @@ defmodule Meetup do
     7 => :sunday,
   }
 
+  def days_list(year, month) do
+    for day <- 1..:calendar.last_day_of_the_month(year, month) do
+      {day, Map.get(@weekdays, :calendar.day_of_the_week(year, month, day))}
+    end
+  end
+
   @schedule_idx %{
     :first  => 0,
     :second => 1,
@@ -48,33 +48,21 @@ defmodule Meetup do
     :fourth => 3
   }
 
-  def day_from_schedule(days_of_the_month, day_of_the_week, schedule) do
+  defp get_date(days_of_the_month, day_of_the_week, schedule) do
     case schedule do
       :teenth ->
         days_of_the_month
-        |> Enum.filter(fn {dotm, _} -> dotm >= 12 && dotm <= 19 end)
-        |> get_day(day_of_the_week)
+        |> Enum.filter(fn {dotm, _} -> dotm >= 13 && dotm <= 19 end)
+        |> Enum.find(fn {_, dotw} -> dotw == day_of_the_week end)
       :last ->
         days_of_the_month
-        |> Enum.filter(fn {_, dotw} ->
-          # day_of_the_week is a symbol
-          dotw == day_of_the_week
-        end)
+        |> Enum.filter(fn {_, dotw} -> day_of_the_week == dotw end)
         |> List.last
-      _ -> # all else should just be the nth instance of
+      _ ->
         days_of_the_month
-        |> Enum.filter(fn {_, dotw} ->
-          dotw == day_of_the_week
-        end)
+        |> Enum.filter(fn {_, dotw} -> day_of_the_week == dotw end)
         |> Enum.at(Map.get(@schedule_idx, schedule))
     end
-  end
-
-  def get_day(days, target_dotw) do
-    { day, _ } = Enum.find days, fn {_, dotw} ->
-      target_dotw == Map.get(@weekdays, dotw)
-    end
-
-    day
+    |> elem(0)
   end
 end
