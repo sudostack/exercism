@@ -20,7 +20,7 @@ defmodule SpageAgeTest do
     assert_in_delta 31.69, SpaceAge.age_on(:earth, input), 0.005
   end
 
-  @tag :pending
+  # @tag :pending
   test "age on Mercury" do
     input = 2_134_835_688
     assert_in_delta 67.65, SpaceAge.age_on(:earth, input), 0.005
