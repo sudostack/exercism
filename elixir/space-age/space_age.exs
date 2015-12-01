@@ -17,6 +17,7 @@ defmodule SpaceAge do
   """
   @earth_day_seconds  86400
   @earth_days         365.25
+  @earth_orb          31_557_600
 
   @planets %{
     :mercury => 0.2408467,
@@ -31,9 +32,6 @@ defmodule SpaceAge do
 
   @spec age_on(planet, pos_integer) :: float
   def age_on(planet, seconds) do
-    earth_year_seconds = seconds / earth_year_in_seconds
-    earth_year_seconds * Map.get(@planets, planet)
+    seconds / (Map.get(@planets, planet) * @earth_orb)
   end
-
-  defp earth_year_in_seconds, do: @earth_days * @earth_day_seconds
 end
