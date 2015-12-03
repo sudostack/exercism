@@ -15,32 +15,32 @@ defmodule TriangleTest do
     assert Triangle.kind(2, 2, 2) == { :ok, :equilateral }
   end
 
-  @tag :pending
+  # @tag :pending
   test "larger equilateral triangles also have equal sides" do
     assert Triangle.kind(10, 10, 10) == { :ok, :equilateral }
   end
 
-  @tag :pending
+  # @tag :pending
   test "isosceles triangles have last two sides equal" do
     assert Triangle.kind(3, 4, 4) == { :ok, :isosceles }
   end
 
-  @tag :pending
+  # @tag :pending
   test "isosceles triangles have first and last sides equal" do
     assert Triangle.kind(4, 3, 4) == { :ok, :isosceles }
   end
 
-  @tag :pending
+  # @tag :pending
   test "isosceles triangles have two first sides equal" do
     assert Triangle.kind(4, 4, 3) == { :ok, :isosceles }
   end
 
-  @tag :pending
+  # @tag :pending
   test "isosceles triangles have in fact exactly two sides equal" do
     assert Triangle.kind(10, 10, 2) == { :ok, :isosceles }
   end
 
-  @tag :pending
+  # @tag :pending
   test "scalene triangles have no equal sides" do
     assert Triangle.kind(3, 4, 5) == { :ok, :scalene }
   end
