@@ -45,27 +45,27 @@ defmodule TriangleTest do
     assert Triangle.kind(3, 4, 5) == { :ok, :scalene }
   end
 
-  @tag :pending
+  # @tag :pending
   test "scalene triangles have no equal sides at a larger scale too" do
     assert Triangle.kind(10, 11, 12) == { :ok, :scalene }
   end
 
-  @tag :pending
+  # @tag :pending
   test "scalene triangles have no equal sides in descending order either" do
     assert Triangle.kind(5, 4, 2) == { :ok, :scalene }
   end
 
-  @tag :pending
+  # @tag :pending
   test "very small triangles are legal" do
     assert Triangle.kind(0.4, 0.6, 0.3) == { :ok, :scalene }
   end
 
-  @tag :pending
+  # @tag :pending
   test "triangles with no size are illegal" do
     assert Triangle.kind(0, 0, 0) == { :error, "all side lengths must be positive" }
   end
 
-  @tag :pending
+  # @tag :pending
   test "triangles with negative sides are illegal" do
     assert Triangle.kind(3, 4, -5) == { :error, "all side lengths must be positive" }
   end
