@@ -10,6 +10,15 @@ defmodule Triangle do
   end
   def kind(0, 0, 0),    do: {:error, "all side lengths must be positive"}
   def kind(a, a, a),    do: {:ok, :equilateral}
+  def kind(a, a, b) when a < b do
+    {:error, "side lengths violate triangle inequality"}
+  end
+  def kind(a, b, a) when a < b do
+    {:error, "side lengths violate triangle inequality"}
+  end
+  def kind(a, b, b) when b < a do
+    {:error, "side lengths violate triangle inequality"}
+  end
   def kind(a, a, _),    do: {:ok, :isosceles}
   def kind(_, a, a),    do: {:ok, :isosceles}
   def kind(a, _, a),    do: {:ok, :isosceles}

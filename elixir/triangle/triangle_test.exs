@@ -75,12 +75,12 @@ defmodule TriangleTest do
     assert Triangle.kind(1, 1, 3) == { :error, "side lengths violate triangle inequality" }
   end
 
-  @tag :pending
+  # @tag :pending
   test "triangles violating triangle inequality are illegal 2" do
     assert Triangle.kind(2, 4, 2) == { :error, "side lengths violate triangle inequality" }
   end
 
-  @tag :pending
+  # @tag :pending
   test "triangles violating triangle inequality are illegal 3" do
     assert Triangle.kind(7, 3, 2) == { :error, "side lengths violate triangle inequality" }
   end
