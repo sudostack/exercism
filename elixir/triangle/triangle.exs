@@ -5,14 +5,10 @@ defmodule Triangle do
   Return the kind of triangle of a triangle with 'a', 'b' and 'c' as lengths.
   """
   @spec kind(number, number, number) :: { :ok, kind } | { :error, String.t }
-  def kind(0, 0, 0),    do: {:error, "all side lengths must be positive"}
-  def kind(a, b, c) do
-    if a < 0 || b < 0 || c < 0 do
-     {:error, "all side lengths must be positive"}
-    else
-      kind(a, b, c)
-    end
+  def kind(a, b, c) when a < 0 or b < 0 or c < 0 do
+    {:error, "all side lengths must be positive"}
   end
+  def kind(0, 0, 0),    do: {:error, "all side lengths must be positive"}
   def kind(a, a, a),    do: {:ok, :equilateral}
   def kind(a, a, _),    do: {:ok, :isosceles}
   def kind(_, a, a),    do: {:ok, :isosceles}
