@@ -30,22 +30,22 @@ defmodule ScrabbleScoreTest do
     assert Scrabble.score("f") == 4
   end
 
-  @tag :pending
+  # @tag :pending
   test "simple word scores the number of letters" do
     assert Scrabble.score("street") == 6
   end
 
-  @tag :pending
+  # @tag :pending
   test "complicated word scores more" do
     assert Scrabble.score("quirky") == 22
   end
 
-  @tag :pending
+  # @tag :pending
   test "scores are case insensitive" do
     assert Scrabble.score("MULTIBILLIONAIRE") == 20
   end
 
-  @tag :pending
+  # @tag :pending
   test "convenient scoring" do
     assert Scrabble.score("alacrity") == 13
   end

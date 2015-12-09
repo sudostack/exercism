@@ -1,4 +1,3 @@
-# require IEx
 defmodule Scrabble do
   @doc """
   Calculate the scrabble score for the word.
@@ -24,20 +23,12 @@ defmodule Scrabble do
   }
 
   def letter_score(char) do
-    ltr_score = 0
-
-    Enum.each @letter_scores, fn score_tup ->
-      # IEx.pry
-      if String.contains?(String.upcase(char), elem(score_tup, 1)) do
-        ltr_score = elem(score_tup, 0)
-      end
+    result = Enum.filter @letter_scores, fn score_tup ->
+      String.contains?(String.upcase(char), elem(score_tup, 1))
     end
 
-    ltr_score
+    result
+    |> hd
+    |> elem(0)
   end
-
-  # defp occurrence(word, char) do
-  #   Regex.scan(~r/#{char}/, word)
-  #   |> Enum.count
-  # end
 end
