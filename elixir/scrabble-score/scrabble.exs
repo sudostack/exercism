@@ -7,9 +7,7 @@ defmodule Scrabble do
     word
     |> String.strip
     |> String.split("", trim: true)
-    |> Enum.reduce(0, fn char, accum ->
-      accum + letter_score(char)
-    end)
+    |> Enum.reduce 0, &(letter_score(&1) + &2)
   end
 
   @letter_scores %{
@@ -22,13 +20,11 @@ defmodule Scrabble do
     10 => ~w(Q Z)
   }
 
-  def letter_score(char) do
+  defp letter_score(char) do
     result = Enum.filter @letter_scores, fn score_tup ->
       String.contains?(String.upcase(char), elem(score_tup, 1))
     end
 
-    result
-    |> hd
-    |> elem(0)
+    result |> hd |> elem(0)
   end
 end
