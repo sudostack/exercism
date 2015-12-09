@@ -25,7 +25,7 @@ defmodule ScrabbleScoreTest do
     assert Scrabble.score("a") == 1
   end
 
-  @tag :pending
+  # @tag :pending
   test "scores other very short word" do
     assert Scrabble.score("f") == 4
   end

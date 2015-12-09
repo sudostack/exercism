@@ -4,6 +4,8 @@ defmodule Scrabble do
   """
   @spec score(String.t) :: non_neg_integer
   def score(word) do
-    String.length(word)
+    word
+    |> String.strip
+    |> String.length
   end
 end
