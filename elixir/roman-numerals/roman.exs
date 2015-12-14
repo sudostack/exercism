@@ -42,6 +42,9 @@ defmodule Roman do
   # 8 => VIII vs IIX
   # 9 => VIIII vs IX
 
+  # Figure out if the next denomination up, minus the current denom is equal to target
+  # If so, take it, if not, then start w/ the current denom and build
+
   def thousands(num_tup) do
     { remainder(num_tup, 1000), roman_concat("M", multiplier(num_tup, 1000)) }
   end
