@@ -24,8 +24,7 @@ defmodule Roman do
   end
 
   def remainder(num_tup, divisor) do
-    { num, div } = num_tup
-    multiples    = multiplier(num_tup, divisor)
+    multiples = multiplier(num_tup, divisor)
 
     num - (divisor * multiples)
   end
@@ -59,6 +58,21 @@ defmodule Roman do
 
   def fifties(num_tup) do
     { remainder(num_tup, 50), roman_concat("L", multiplier(num_tup, 50)) }
+  end
+
+  def under_ten(num_tup) do
+    cond do
+      number < 4 ->
+        Enum.reduce 1..number, "", fn num, acc -> acc <> "I" end
+      number < 5 ->
+        numerals(5 - number) <> "V"
+      number == 5 ->
+        "V"
+      number > 5 and number < 9 ->
+        "V" <> numerals(number - 5)
+      number < 10 ->
+        numerals(10 - number) <> "X"
+    end
   end
 
   def tens(num_tup) do
