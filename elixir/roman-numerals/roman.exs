@@ -17,6 +17,17 @@ defmodule Roman do
     |> elem(1)
   end
 
+  @denom_order ~w(thousands five_hunds centrums fifties tens fives)
+  @denominations %{
+    thousands:  { 1000, "M" },
+    five_hunds: { 500, "D" },
+    centrums:   { 100, "C" },
+    fifties:    { 50, "L" },
+    tens:       { 10, "X" },
+    fives:      { 5, "V" },
+    ones:       { 1, "I" }
+  }
+
   def roman_concat(char, multiplier, str \\ "") do
     Enum.reduce 1..multiplier, str, fn(_count, acc) ->
       acc <> char
