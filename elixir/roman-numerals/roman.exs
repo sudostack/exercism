@@ -55,6 +55,15 @@ defmodule Roman do
   # Figure out if the next denomination up, minus the current denom is equal to target
   # If so, take it, if not, then start w/ the current denom and build
 
+  def next?(count) do
+
+  end
+
+  def convert(0, acc_str), do: acc_str
+  def convert(count, acc_str) do
+
+  end
+
   def thousands(num_tup) do
     { remainder(num_tup, 1000), roman_concat("M", multiplier(num_tup, 1000)) }
   end
