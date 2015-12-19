@@ -11,6 +11,7 @@ defmodule Roman do
     {  500, "D" },
     {  400, "CD" },
     {  100, "C" },
+    {   90, "XC" },
     {   50, "L" },
     {   40, "XL" },
     {   10, "X" },
@@ -20,15 +21,15 @@ defmodule Roman do
     {    1, "I" }
   ]
 
-  def largest_denom(count) do
+  defp largest_denom(count) do
     @denominations
     |> Enum.find fn { num, _char } ->
       num <= count
     end
   end
 
-  def deduce(0, char_accum), do: char_accum
-  def deduce(count, char_accum) do
+  defp deduce(0, char_accum), do: char_accum
+  defp deduce(count, char_accum) do
     { num, char } = largest_denom(count)
     deduce(count - num, char_accum <> char)
   end
