@@ -35,17 +35,17 @@ defmodule BinaryTest do
     assert Binary.to_decimal("1001") == 9
   end
 
-  @tag :pending
+  # @tag :ending
   test "binary 11010 is decimal 26" do
     assert Binary.to_decimal("11010") == 26
   end
 
-  @tag :pending
+  # @tag :pending
   test "binary 10001101000 is decimal 1128" do
     assert Binary.to_decimal("10001101000") == 1128
   end
 
-  @tag :pending
+  # @tag :pending
   test "invalid binary is decimal 0" do
     assert Binary.to_decimal("carrot") == 0
   end
