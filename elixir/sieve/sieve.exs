@@ -15,8 +15,15 @@ defmodule Sieve do
     # take next unmarked and pass back to filler
   end
 
-  def multiples(n, limit) do
+  def multiples(n, i, limit, acc \\ []) do
+    multiple = n * i
 
+    cond do
+      n >= limit ->
+        acc
+      true       ->
+        multiples(n, multiple, limit, acc ++ [multiple])
+    end
   end
 
   def next_prime(n) do
