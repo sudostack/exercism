@@ -1,3 +1,5 @@
+require IEx
+
 defmodule Sieve do
 
   @doc """
@@ -5,29 +7,24 @@ defmodule Sieve do
   """
   @spec primes_to(non_neg_integer) :: [non_neg_integer]
   def primes_to(limit) do
+    range = 2..limit |> Enum.to_list
 
+    range |> mark(2, List.last(range))
   end
 
-  def filler(limit, prime, sieves) when prime == limit, do: sieves
-  def filler(limit, prime \\ 2, sieves \\ []) do
-    primes = sieves ++ multiples(prime, limit) |> enum.sort
-
-    filler(
-      limit,
-      next_unmarked(primes, prime),
-      primes
+  # mark (filter) every kth instance of n, but not n
+  def mark(range, curr_prime, limit) when curr_prime >= limit, do: range
+  def mark(range, curr_prime, limit) do
+    new_range = Enum.with_index(range)
+    |> Enum.filter_map(
+      fn { num, idx } ->
+        (curr_prime != num) && (rem(idx + 1, curr_prime) == 0)
+      end,
+      &(elem(&1, 0))
     )
-  end
 
-  def multiples(_prime, _limit, i \\ 1, acc \\ [])
-  def multiples(prime, limit, i, acc) when prime * i >= limit, do: acc
-  def multiples(prime, limit, i, acc) do
-    multiple = prime * i
-    multiples(prime, limit, i + 1, acc ++ [multiple])
-  end
+    # next_prime_idx = (new_range |> Enum.find_index(curr_prime)) + 1
 
-  def next_unmarked(list, current_prime) do
-    idx        = Enum.find_index fn n -> n == current_prime end
-    next_prime = Enum.at(list, idx + 1)
+    # mark(new_range, new_range |> List.at(next_prime_idx), limit)
   end
 end
