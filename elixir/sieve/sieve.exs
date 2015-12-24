@@ -8,24 +8,26 @@ defmodule Sieve do
 
   end
 
+  def filler(limit, prime, sieves) when prime == limit, do: sieves
   def filler(limit, prime \\ 2, sieves \\ []) do
-    Enum.reduce prime..limit, sieves, fn n, acc ->
-    end
-    # fill w/ multiples
-    # take next unmarked and pass back to filler
+    primes = sieves ++ multiples(prime, limit) |> enum.sort
+
+    filler(
+      limit,
+      next_unmarked(primes, prime),
+      primes
+    )
   end
 
-  def multiples(n, i, limit, acc \\ []) do
-    multiple = n * i
-
-    cond do
-      n >= limit ->
-        acc
-      true       ->
-        multiples(n, multiple, limit, acc ++ [multiple])
-    end
+  def multiples(_prime, _limit, i \\ 1, acc \\ [])
+  def multiples(prime, limit, i, acc) when prime * i >= limit, do: acc
+  def multiples(prime, limit, i, acc) do
+    multiple = prime * i
+    multiples(prime, limit, i + 1, acc ++ [multiple])
   end
 
-  def next_prime(n) do
+  def next_unmarked(list, current_prime) do
+    idx        = Enum.find_index fn n -> n == current_prime end
+    next_prime = Enum.at(list, idx + 1)
   end
 end
