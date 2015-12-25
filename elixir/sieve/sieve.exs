@@ -7,37 +7,52 @@ defmodule Sieve do
   """
   @spec primes_to(non_neg_integer) :: [non_neg_integer]
   def primes_to(limit) do
-    range = 2..limit |> Enum.to_list
+    list = 2..limit |> Enum.to_list |> Enum.map &({ &1, false })
 
-    mark(range, 2, List.last(range))
+    primes = mark(list, List.first(list), List.last(list) |> elem(0))
+      |> Enum.filter fn { _, marking } -> marking == false end
+
+    Enum.map primes, &elem(&1, 0)
   end
 
   # mark (filter) every kth instance of n, but not n
-  def mark(range, curr_prime, limit) when curr_prime >= limit, do: range
-  def mark(range, curr_prime, limit) do
-    curr_prime_idx = Enum.find_index range, &(&1 == curr_prime)
+  def mark(num_list, { prime, _marked }, limit) when prime >= limit, do: num_list
+  def mark(num_list, { prime, _marked }, limit) do
+    prime_idx = prime_index(num_list, prime)
 
-    updated_list = get_list(range)
-      |> Enum.map fn { num, idx } ->
+    num_list_with_index = Enum.with_index(num_list)
+      |> Enum.map fn { {num, marked}, idx } ->
         cond do
-          idx > curr_prime_idx and (idx != :marked && rem(idx, curr_prime) == 0) ->
-            { num, :marked }
+          Enum.any?(indices_to_mark(num_list, prime), &(&1 == idx)) ->
+            { {num, true}, idx }
           true ->
-            { num, idx }
+            { {num, marked}, idx }
         end
       end
 
-    next_prime_tup = Enum.find(updated_list, fn { _num, idx } -> idx != :marked end)
+    next_unmarked = Enum.find num_list_with_index, fn { {_num, marked}, idx } ->
+      idx > prime_idx && marked == false
+    end
 
-    mark(updated_list, elem(next_prime_tup, 0), limit)
+    updated_list = Enum.map num_list_with_index, &(elem(&1, 0))
+
+    mark(updated_list, elem(next_unmarked, 0), limit)
   end
 
-  defp get_list(range) do
-    cond do
-      List.first(range) |> is_tuple ->
-        range
-      true ->
-        Enum.with_index(range)
-    end
+  defp prime_index(list, prime) do
+    Enum.find_index list, &(elem(&1, 0) == prime)
+  end
+
+  def indices_to_mark(list, prime) do
+    limit = length(list) - 1
+    p_idx = prime_index(list, prime)
+
+    gen_idx(p_idx, prime, [], limit)
+  end
+
+  def gen_idx(start_idx, step_size, acc, limit) when (start_idx + step_size) >= limit, do: acc
+  def gen_idx(start_idx, step_size, acc, limit) do
+    next_idx = start_idx + step_size
+    gen_idx(next_idx, step_size, acc ++ [next_idx], limit)
   end
 end
