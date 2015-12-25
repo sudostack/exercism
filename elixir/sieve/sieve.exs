@@ -36,7 +36,12 @@ defmodule Sieve do
 
     updated_list = Enum.map num_list_with_index, &(elem(&1, 0))
 
-    mark(updated_list, elem(next_unmarked, 0), limit)
+    cond do
+      !next_unmarked ->
+        mark(updated_list, { limit, false }, limit)
+      true ->
+        mark(updated_list, elem(next_unmarked, 0), limit)
+    end
   end
 
   defp prime_index(list, prime) do
@@ -50,7 +55,7 @@ defmodule Sieve do
     gen_idx(p_idx, prime, [], limit)
   end
 
-  def gen_idx(start_idx, step_size, acc, limit) when (start_idx + step_size) >= limit, do: acc
+  def gen_idx(start_idx, step_size, acc, limit) when (start_idx + step_size) > limit, do: acc
   def gen_idx(start_idx, step_size, acc, limit) do
     next_idx = start_idx + step_size
     gen_idx(next_idx, step_size, acc ++ [next_idx], limit)
