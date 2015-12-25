@@ -9,22 +9,35 @@ defmodule Sieve do
   def primes_to(limit) do
     range = 2..limit |> Enum.to_list
 
-    range |> mark(2, List.last(range))
+    mark(range, 2, List.last(range))
   end
 
   # mark (filter) every kth instance of n, but not n
   def mark(range, curr_prime, limit) when curr_prime >= limit, do: range
   def mark(range, curr_prime, limit) do
-    curr_prime_idx = Enum.find_index(range, &(&1 == curr_prime))
+    curr_prime_idx = Enum.find_index range, &(&1 == curr_prime)
 
-    new_range = Enum.with_index(range)
-      |> Enum.filter_map(
-        fn { _num, idx } ->
-          idx <= curr_prime_idx || (rem(idx + 1, curr_prime) == 0)
-        end,
-        &(elem(&1, 0))
-      )
+    updated_list = get_list(range)
+      |> Enum.map fn { num, idx } ->
+        cond do
+          idx > curr_prime_idx and (idx != :marked && rem(idx, curr_prime) == 0) ->
+            { num, :marked }
+          true ->
+            { num, idx }
+        end
+      end
 
-    mark(new_range, Enum.at(new_range, curr_prime_idx + 1), limit)
+    next_prime_tup = Enum.find(updated_list, fn { _num, idx } -> idx != :marked end)
+
+    mark(updated_list, elem(next_prime_tup, 0), limit)
+  end
+
+  defp get_list(range) do
+    cond do
+      List.first(range) |> is_tuple ->
+        range
+      true ->
+        Enum.with_index(range)
+    end
   end
 end
